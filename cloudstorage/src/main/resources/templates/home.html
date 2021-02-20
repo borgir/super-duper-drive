@@ -10,6 +10,19 @@
     </head>
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
+            <div id="result-message">
+
+                <div th:if="${successMessage != ''}" class="alert alert-success fill-parent">
+                    <h1 class="display-5">Success</h1>
+                    <span th:utext="${successMessage}">Your changes were successfully saved.</span>
+                </div>
+
+                <div th:if="${errorMessage != ''}" class="alert alert-danger fill-parent">
+                    <h1 class="display-5">Error</h1>
+                    <span th:utext="${errorMessage}">There was an error.</span>
+                </div>
+
+            </div>
             <div id="logoutDiv">
                 <form action="#" th:action="@{/logout}" method="POST">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
@@ -97,15 +110,19 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
-                                            <input type="hidden" name="noteId" id="note-id">
+                                        <form th:object="${formNote}" action="#" th:action="@{/note/add}" method="POST">
+
+                                            <!--
+                                            <input type="hidden" name="noteId" id="note-id" th:field="*{noteid}">
+                                            -->
+
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
-                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" th:field="*{notetitle}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000"  th:field="*{notedescription}" required></textarea>
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
