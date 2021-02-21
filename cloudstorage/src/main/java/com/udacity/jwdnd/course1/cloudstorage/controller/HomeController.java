@@ -52,9 +52,7 @@ public class HomeController {
 
         model.addAttribute("successMessage", successMessage);
         model.addAttribute("errorMessage", errorMessage);
-
-
-
+        
         return "home";
 
     }

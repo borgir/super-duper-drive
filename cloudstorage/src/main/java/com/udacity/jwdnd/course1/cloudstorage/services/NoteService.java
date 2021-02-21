@@ -29,4 +29,8 @@ public class NoteService {
         return noteMapper.getAllNotes();
     }
 
+    public boolean deleteNote(int id) {
+        return noteMapper.deleteNote(id);
+    }
+
 }

@@ -91,7 +91,7 @@
                                     <tr th:each="note: ${notes}">
                                         <td>
                                             <button type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <a th:href="@{/note/delete/{id}(id=${note.noteid})}" class="btn btn-danger careful">Delete</a>
                                         </td>
                                         <th scope="row" th:text="${note.notetitle}">Example Note Title</th>
                                         <td th:text="${note.notedescription}">Example Note Description </td>
@@ -225,6 +225,13 @@
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
             }
+
+            $('.careful').on('click', function(){
+                if (!confirm('Are you sure?')) {
+                    return false;
+                }
+            });
+
         </script>
     </body>
 </html>
