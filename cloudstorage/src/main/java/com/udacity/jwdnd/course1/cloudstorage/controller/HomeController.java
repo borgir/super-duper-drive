@@ -46,12 +46,14 @@ public class HomeController {
     @GetMapping("/home")
     public String getHomePage(@ModelAttribute("formNote") Note note, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
 
-        System.out.println("attribute: " + errorMessage);
         model.addAttribute("notes", this.noteService.getAllNotes());
+
+        System.out.println("notes: " + this.noteService.getAllNotes());
+
         model.addAttribute("successMessage", successMessage);
         model.addAttribute("errorMessage", errorMessage);
 
-        System.out.println("successMessage: " + successMessage);
+
 
         return "home";
 
