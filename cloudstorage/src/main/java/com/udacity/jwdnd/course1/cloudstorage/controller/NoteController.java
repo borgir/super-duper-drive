@@ -43,7 +43,7 @@ public class NoteController {
      * @return
      */
     @PostMapping("/add")
-    public String postNote(Authentication authentication, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
+    public String addNote(Authentication authentication, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
@@ -74,6 +74,44 @@ public class NoteController {
     }
 
 
+
+
+
+    @PostMapping("/edit/{id}")
+    public String editNote(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
+
+        String errorMessage = "";
+        if (note.getNotetitle() == "") {
+            errorMessage += "<p>Note title field is required.</p>";
+        }
+
+        if (note.getNotedescription() == "") {
+            errorMessage += "<p>Note description field is required.</p>";
+        }
+
+        if (errorMessage != "") {
+            attributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:/home";
+        }
+
+        User user = userService.getUser(authentication.getPrincipal().toString());
+
+        Note updatedNote = new Note();
+        updatedNote.setNotetitle(note.getNotetitle());
+        updatedNote.setNotedescription(note.getNotedescription());
+        updatedNote.setUserid((int)user.getUserId());
+        updatedNote.setNoteid(id);
+
+        if (this.noteService.editNote(updatedNote)) {
+            attributes.addFlashAttribute("successMessage", "<p>Note successfully updated</p>");
+        } else {
+            attributes.addFlashAttribute("errorMessage", "<p>There was an error</p>");
+        }
+
+
+        return "redirect:/home";
+
+    }
 
     @GetMapping("/delete/{id}")
     public String deleteNote(@PathVariable("id") int id, RedirectAttributes attributes) {

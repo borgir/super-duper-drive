@@ -15,18 +15,16 @@ public class NoteService {
     }
 
     public void addNote(Note note) {
-        /*
-        Note newNote = new Note();
-        newNote.setNotedescription(note.getNotedescription());
-        newNote.setNotetitle(note.getNotetitle());
-        newNote.setUserid(note.getUserid());
-        */
-
         noteMapper.insertNote(note);
     }
 
-    public List<Note> getAllNotes() {
-        return noteMapper.getAllNotes();
+    public boolean editNote(Note note) {
+        return noteMapper.updateNote(note);
+    }
+
+    public List<Note> getAllLoggedUserNotes(int userid) {
+        System.out.println("NoteService userid: " + userid);
+        return noteMapper.getAllNotes(userid);
     }
 
     public boolean deleteNote(int id) {

@@ -55,4 +55,5 @@ public class Note {
     public void setUserid(int userid) {
         this.userid = userid;
     }
+
 }

@@ -44,11 +44,11 @@ public class HomeController {
      * @return
      */
     @GetMapping("/home")
-    public String getHomePage(@ModelAttribute("formNote") Note note, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
+    public String getHomePage(Authentication authentication, @ModelAttribute("formNote") Note note, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
 
-        model.addAttribute("notes", this.noteService.getAllNotes());
-
-        System.out.println("notes: " + this.noteService.getAllNotes());
+        User user = userService.getUser(authentication.getPrincipal().toString());
+        System.out.println("userid: " + (int)user.getUserId());
+        model.addAttribute("notes", this.noteService.getAllLoggedUserNotes((int)user.getUserId()));
 
         model.addAttribute("successMessage", successMessage);
         model.addAttribute("errorMessage", errorMessage);
