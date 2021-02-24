@@ -23,7 +23,6 @@ public class NoteService {
     }
 
     public List<Note> getAllLoggedUserNotes(int userid) {
-        System.out.println("NoteService userid: " + userid);
         return noteMapper.getAllNotes(userid);
     }
 

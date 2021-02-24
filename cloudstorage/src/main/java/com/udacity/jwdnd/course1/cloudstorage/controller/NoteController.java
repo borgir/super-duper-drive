@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 @RequestMapping("/note")
 public class NoteController {
@@ -47,11 +48,11 @@ public class NoteController {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
-            errorMessage += "<p>Note title field is required.</p>";
+            errorMessage += "<p>Note title field is required</p>";
         }
 
         if (note.getNotedescription() == "") {
-            errorMessage += "<p>Note description field is required.</p>";
+            errorMessage += "<p>Note description field is required</p>";
         }
 
         if (errorMessage != "") {
@@ -76,17 +77,25 @@ public class NoteController {
 
 
 
-
+    /**
+     *
+     * @param authentication
+     * @param id
+     * @param note
+     * @param model
+     * @param attributes
+     * @return
+     */
     @PostMapping("/edit/{id}")
     public String editNote(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
-            errorMessage += "<p>Note title field is required.</p>";
+            errorMessage += "<p>Note title field is required</p>";
         }
 
         if (note.getNotedescription() == "") {
-            errorMessage += "<p>Note description field is required.</p>";
+            errorMessage += "<p>Note description field is required</p>";
         }
 
         if (errorMessage != "") {
@@ -113,6 +122,15 @@ public class NoteController {
 
     }
 
+
+
+
+    /**
+     *
+     * @param id
+     * @param attributes
+     * @return
+     */
     @GetMapping("/delete/{id}")
     public String deleteNote(@PathVariable("id") int id, RedirectAttributes attributes) {
 

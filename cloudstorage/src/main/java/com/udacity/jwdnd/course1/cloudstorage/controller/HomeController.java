@@ -47,7 +47,6 @@ public class HomeController {
     public String getHomePage(Authentication authentication, @ModelAttribute("formNote") Note note, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
 
         User user = userService.getUser(authentication.getPrincipal().toString());
-        System.out.println("userid: " + (int)user.getUserId());
         model.addAttribute("notes", this.noteService.getAllLoggedUserNotes((int)user.getUserId()));
 
         model.addAttribute("successMessage", successMessage);
