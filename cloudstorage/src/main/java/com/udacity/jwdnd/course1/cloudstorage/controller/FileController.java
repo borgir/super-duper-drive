@@ -5,15 +5,13 @@ import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,8 +28,6 @@ public class FileController {
     private FileService fileService;
     private UserService userService;
 
-
-
     /**
      *
      * @param userService
@@ -41,8 +37,6 @@ public class FileController {
         this.userService = userService;
         this.fileService = fileService;
     }
-
-
 
 
     /**
@@ -72,6 +66,29 @@ public class FileController {
         }
 
         return "redirect:/home";
+
+    }
+
+
+    /**
+     *
+     * @param id
+     * @param attributes
+     * @return
+     */
+    @GetMapping("/download/{id}")
+    public HttpEntity<byte[]> downloadFile(@PathVariable("id") int id, RedirectAttributes attributes) {
+
+        File file = this.fileService.downloadFile(id);
+
+        byte[] fileContents  = file.getFiledata();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(file.getContenttype()));
+        headers.add("content-disposition", "inline;filename=" + file.getFilename());
+        headers.setContentDispositionFormData(file.getFilename(), file.getFilename());
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(fileContents, headers, HttpStatus.OK);
+        return response;
 
     }
 

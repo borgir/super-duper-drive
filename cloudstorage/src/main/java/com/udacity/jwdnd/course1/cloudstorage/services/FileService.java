@@ -1,9 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
-import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -47,8 +45,6 @@ public class FileService {
 
 
 
-
-
     public List<File> getAllLoggedUserFiles(int userid) {
         return fileMapper.getAllFiles(userid);
     }
@@ -59,6 +55,10 @@ public class FileService {
 
     public String getFilename(MultipartFile file) {
         return StringUtils.cleanPath(file.getOriginalFilename());
+    }
+
+    public File downloadFile(int id) {
+        return fileMapper.getFile(id);
     }
 
 }
