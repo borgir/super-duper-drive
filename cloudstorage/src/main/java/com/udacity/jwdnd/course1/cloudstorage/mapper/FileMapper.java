@@ -20,7 +20,7 @@ public interface FileMapper {
     @Options(useGeneratedKeys = true, keyProperty = "fileid")
     boolean insertFile(File file);
 
-    @Delete("DELETE FROM FILES WHERE fileid = #{fileid}")
-    boolean deleteFile(int fileid);
+    @Delete("DELETE FROM FILES WHERE fileid = #{fileid} AND userid = #{userid}")
+    boolean deleteFile(int fileid, int userid);
 
 }

@@ -7,21 +7,36 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
+
 
 @Service
 public class FileService {
 
+
     private FileMapper fileMapper;
     private UserService userService;
 
+
+    /**
+     *
+     * @param userService
+     * @param fileMapper
+     */
     public FileService(UserService userService, FileMapper fileMapper) {
         this.fileMapper = fileMapper;
         this.userService = userService;
     }
 
+
+    /**
+     *
+     * @param authentication
+     * @param file
+     * @return
+     * @throws IOException
+     */
     public boolean storeFile(Authentication authentication, MultipartFile file) throws IOException {
 
         String fileName = getFilename(file);
@@ -44,19 +59,42 @@ public class FileService {
     }
 
 
-
+    /**
+     *
+     * @param userid
+     * @return
+     */
     public List<File> getAllLoggedUserFiles(int userid) {
         return fileMapper.getAllFiles(userid);
     }
 
-    public boolean deleteFile(int fileid) {
-        return fileMapper.deleteFile(fileid);
+
+    /**
+     *
+     * @param fileid
+     * @param userid
+     * @return
+     */
+    public boolean deleteFile(int fileid, int userid) {
+        return fileMapper.deleteFile(fileid, userid);
     }
 
+
+    /**
+     *
+     * @param file
+     * @return
+     */
     public String getFilename(MultipartFile file) {
         return StringUtils.cleanPath(file.getOriginalFilename());
     }
 
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     public File downloadFile(int id) {
         return fileMapper.getFile(id);
     }
