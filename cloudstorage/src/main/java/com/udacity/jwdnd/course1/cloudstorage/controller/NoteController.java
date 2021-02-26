@@ -20,8 +20,6 @@ public class NoteController {
     private UserService userService;
 
 
-
-
     /**
      *
      * @param noteService
@@ -31,8 +29,6 @@ public class NoteController {
         this.noteService = noteService;
         this.userService = userService;
     }
-
-
 
 
     /**
@@ -73,8 +69,6 @@ public class NoteController {
         return "redirect:/home";
 
     }
-
-
 
 
     /**
@@ -123,8 +117,6 @@ public class NoteController {
     }
 
 
-
-
     /**
      *
      * @param id
@@ -132,9 +124,11 @@ public class NoteController {
      * @return
      */
     @GetMapping("/delete/{id}")
-    public String deleteNote(@PathVariable("id") int id, RedirectAttributes attributes) {
+    public String deleteNote(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
 
-        if (this.noteService.deleteNote(id)) {
+        User user = userService.getUser(authentication.getPrincipal().toString());
+
+        if (this.noteService.deleteNote(id, (int)user.getUserId())) {
             attributes.addFlashAttribute("successMessage", "<p>Note deleted successfully</p>");
         } else {
             attributes.addFlashAttribute("errorMessage", "<p>There was an error. Please try again.</p>");
