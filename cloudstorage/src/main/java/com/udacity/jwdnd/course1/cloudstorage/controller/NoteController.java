@@ -40,7 +40,7 @@ public class NoteController {
      * @return
      */
     @PostMapping("/add")
-    public String addNote(Authentication authentication, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
+    public String addNote(Authentication authentication, @ModelAttribute("formNote") Note note, RedirectAttributes attributes) {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
