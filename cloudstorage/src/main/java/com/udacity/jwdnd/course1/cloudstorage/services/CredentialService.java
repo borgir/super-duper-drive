@@ -38,4 +38,8 @@ public class CredentialService {
         return credentialMapper.getAllCredentials(userid);
     }
 
+    public boolean deleteCredential(int id, int userid) {
+        return credentialMapper.deleteCredential(id, userid);
+    }
+
 }

@@ -7,9 +7,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
@@ -58,6 +56,21 @@ public class CredentialController {
         this.credentialService.addCredential(credential, user);
 
         attributes.addFlashAttribute("successMessage", "<p>Credential added successfully</p>");
+        return "redirect:/home";
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCredential(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
+
+        User user = userService.getUser(authentication.getPrincipal().toString());
+
+        if (this.credentialService.deleteCredential(id, (int)user.getUserId())) {
+            attributes.addFlashAttribute("successMessage", "<p>Credential deleted successfully</p>");
+        } else {
+            attributes.addFlashAttribute("errorMessage", "<p>There was an error. Please try again.</p>");
+        }
+
         return "redirect:/home";
 
     }
