@@ -25,17 +25,31 @@ public class CredentialService {
 
 
 
-    public void addCredential(Credential credential, User user) {
+    public boolean addCredential(Credential credential, User user) {
 
-        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), encryptionService.generateKey());
-        Credential newCredential = new Credential(credential.getUrl(), credential.getUsername(), encryptionService.generateKey(), encryptedPassword, (int)user.getUserId());
-        credentialMapper.insertCredential(newCredential);
+        String key = encryptionService.generateKey();
+        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
+
+        Credential newCredential = new Credential(credential.getUrl(), credential.getUsername(), key, encryptedPassword, (int)user.getUserId());
+        return credentialMapper.insertCredential(newCredential);
 
     }
 
+    public boolean editCredential(Credential credential, User user) {
+        String key = encryptionService.generateKey();
+        String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
+        Credential updatedCredential = new Credential(credential.getCredentialid(), credential.getUrl(), credential.getUsername(), key, encryptedPassword, (int)user.getUserId());
+        return credentialMapper.updateCredential(updatedCredential);
+    }
 
     public List<Credential> getAllLoggedUserCredentials(int userid) {
-        return credentialMapper.getAllCredentials(userid);
+        List<Credential> credentials = credentialMapper.getAllCredentials(userid);
+        for (int i = 0; i < credentials.size(); i++) {
+            Credential credential = credentials.get(i);
+            String decryptedPassword = encryptionService.decryptValue(credential.getPassword(), credential.getKey());
+            credential.setRawPassword(decryptedPassword);
+        }
+        return credentials;
     }
 
     public boolean deleteCredential(int id, int userid) {

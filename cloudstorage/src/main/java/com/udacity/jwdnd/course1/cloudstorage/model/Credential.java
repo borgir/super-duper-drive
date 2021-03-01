@@ -7,7 +7,9 @@ public class Credential {
     private String username;
     private String key;
     private String password;
+    private String rawPassword;
     private int userid;
+
 
     public Credential() {
 
@@ -78,4 +80,13 @@ public class Credential {
     public void setUserid(int userid) {
         this.userid = userid;
     }
+
+    public String getRawPassword() {
+        return rawPassword;
+    }
+
+    public void setRawPassword(String rawPassword) {
+        this.rawPassword = rawPassword;
+    }
+
 }

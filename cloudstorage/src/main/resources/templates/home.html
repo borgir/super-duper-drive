@@ -151,14 +151,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="credential: ${credentials}">
+                                <tr class="list-credential-item" th:each="credential: ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <button type="button" class="btn btn-success edit-credential" th:attr="data-credential_id=${credential.credentialid}">Edit</button>
                                         <a class="btn btn-danger careful" th:href="@{/credential/delete/{id}(id=${credential.credentialid})}">Delete</a>
                                     </td>
-                                    <th scope="row" th:text="${credential.url}">Example Credential URL</th>
-                                    <td th:text="${credential.username}">Example Credential Username</td>
-                                    <td th:text="${credential.password}">Example Credential Password</td>
+                                    <th class="list-credential-url" scope="row" th:text="${credential.url}">Example Credential URL</th>
+                                    <td class="list-credential-username" th:text="${credential.username}">Example Credential Username</td>
+                                    <td class="list-credential-password" th:attr="data-raw_password=${credential.rawPassword}" th:text="${credential.password}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -174,8 +174,12 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" th:object="${formCredential}" th:action="@{/credential/add}" method="POST">
+                                        <form id="form-credential" action="#" th:object="${formCredential}" th:action="@{/credential/add}" method="POST">
+
+                                            <!--
                                             <input type="hidden" name="credentialId" id="credential-id">
+                                            -->
+
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">URL</label>
                                                 <input type="text" name= "url" class="form-control" id="credential-url" th:field="*{url}" maxlength="100" required>
@@ -226,6 +230,13 @@
 
             // For opening the credentials modal
             function showCredentialModal(credentialId, url, username, password) {
+
+                if (credentialId) {
+                    $('#form-credential').attr('action', 'credential/edit/' + credentialId);
+                } else {
+                    $('#form-credential').attr('action', 'credential/add');
+                }
+
                 $('#credential-id').val(credentialId ? credentialId : '');
                 $('#credential-url').val(url ? url : '');
                 $('#credential-username').val(username ? username : '');
@@ -244,6 +255,14 @@
                 var noteTitle = $(this).closest('.list-note-item').find('.list-note-title').text();
                 var noteDescription = $(this).closest('.list-note-item').find('.list-note-description').text();
                 showNoteModal(noteId, noteTitle, noteDescription);
+            });
+
+            $('.edit-credential').on('click', function() {
+                var credentialId = $(this).attr('data-credential_id');
+                var credentialUrl = $(this).closest('.list-credential-item').find('.list-credential-url').text();
+                var credentialUsername = $(this).closest('.list-credential-item').find('.list-credential-username').text();
+                var credentialPassword = $(this).closest('.list-credential-item').find('.list-credential-password').attr('data-raw_password');
+                showCredentialModal(credentialId, credentialUrl, credentialUsername, credentialPassword);
             });
 
         </script>
