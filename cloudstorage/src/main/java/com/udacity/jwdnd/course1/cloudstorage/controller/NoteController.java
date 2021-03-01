@@ -31,14 +31,7 @@ public class NoteController {
     }
 
 
-    /**
-     *
-     * @param authentication
-     * @param note
-     * @param model
-     * @param attributes
-     * @return
-     */
+
     @PostMapping("/add")
     public String addNote(Authentication authentication, @ModelAttribute("formNote") Note note, RedirectAttributes attributes) {
 
