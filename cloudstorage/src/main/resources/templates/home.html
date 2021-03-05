@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button style="margin: 0.25em;" type="button" id="btn-note-modal" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -91,7 +91,7 @@
                                     <tr class="list-note-item" th:each="note: ${notes}">
                                         <td>
                                             <button type="button" class="btn btn-success edit-note" th:attr="data-note_id=${note.noteid}">Edit</button>
-                                            <a th:href="@{/note/delete/{id}(id=${note.noteid})}" class="btn btn-danger careful">Delete</a>
+                                            <a th:href="@{/note/delete/{id}(id=${note.noteid})}" class="btn btn-danger careful delete-note">Delete</a>
                                         </td>
                                         <th class="list-note-title" scope="row" th:text="${note.notetitle}">Example Note Title</th>
                                         <td class="list-note-description" th:text="${note.notedescription}">Example Note Description </td>
@@ -129,7 +129,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
+                                        <button type="button" id="btn-add-note" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
                                     </div>
                                 </div>
                             </div>
