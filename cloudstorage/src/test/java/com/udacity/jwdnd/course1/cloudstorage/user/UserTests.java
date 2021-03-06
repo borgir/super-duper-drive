@@ -5,16 +5,18 @@ import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import java.util.concurrent.TimeUnit;
 
+
+/**
+ * Tests for User Signup, Login, and Unauthorized Access Restrictions.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserSignupAuthenticationTests {
+public class UserTests {
 
     @LocalServerPort
     private int port;
@@ -73,7 +75,7 @@ public class UserSignupAuthenticationTests {
      * Tests if a not authenticated user can access the login page.
      */
     @Test
-    public void unauthorizedUserCanAccessLoginPage() {
+    public void shouldAccessLoginPage() {
         driver.get("http://localhost:" + this.port + "/login");
         Assertions.assertEquals("Login", driver.getTitle());
     }
@@ -83,7 +85,7 @@ public class UserSignupAuthenticationTests {
      * Tests if a not authenticated user can access the signup page.
      */
     @Test
-    public void unauthorizedUserCanAccessSignupPage() {
+    public void shouldAccessSignupPage() {
         driver.get("http://localhost:" + this.port + "/signup");
         Assertions.assertEquals("Sign Up", driver.getTitle());
     }
@@ -93,7 +95,7 @@ public class UserSignupAuthenticationTests {
      * Tests if a not authenticated user can access the home page.
      */
     @Test
-    public void unauthorizedUserCanNotAccessHomePage() {
+    public void shouldNotAccessHomePage() {
         driver.get("http://localhost:" + this.port + "/home");
         Assertions.assertNotEquals("Home", driver.getTitle());
     }
@@ -104,13 +106,18 @@ public class UserSignupAuthenticationTests {
      * Then the logout is preformed and the application tests if the user can still access the home page.
      */
     @Test
-    public void signUpLoginLogout() {
+    public void shouldSignUpLoginLogout() throws InterruptedException {
         signupUser();
         authenticateUser();
+
+        TimeUnit.SECONDS.sleep(1);
+
         Assertions.assertEquals("Home", driver.getTitle());
+
         homePage.logOutUser();
-        WebDriverWait wait = new WebDriverWait(driver, 1000);
-        WebElement marker = wait.until(webDriver -> webDriver.findElement(By.id("btn-login")));
+
+        TimeUnit.SECONDS.sleep(1);
+
         driver.get("http://localhost:" + this.port + "/home");
         Assertions.assertNotEquals("Home", driver.getTitle());
     }
