@@ -1,7 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -11,25 +10,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 @Controller
 @RequestMapping("/credential")
 public class CredentialController {
 
     private CredentialService credentialService;
+
     private UserService userService;
+
 
     public CredentialController(CredentialService credentialService, UserService userService) {
         this.credentialService = credentialService;
         this.userService = userService;
     }
+
 
     @PostMapping("/add")
     public String addCredential(Authentication authentication, @ModelAttribute("formCredential") Credential credential, RedirectAttributes attributes) {
@@ -60,6 +55,7 @@ public class CredentialController {
         return "redirect:/home";
 
     }
+
 
     @PostMapping("/edit/{id}")
     public String editCredential(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formCredential") Credential credential, Model model, RedirectAttributes attributes) {
@@ -93,6 +89,7 @@ public class CredentialController {
         return "redirect:/home";
 
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteCredential(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {

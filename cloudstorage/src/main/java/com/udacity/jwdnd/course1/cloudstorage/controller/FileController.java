@@ -16,28 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/file")
 public class FileController {
 
-
     private FileService fileService;
+
     private UserService userService;
 
-    /**
-     *
-     * @param userService
-     * @param fileService
-     */
+
     public FileController(UserService userService, FileService fileService) {
         this.userService = userService;
         this.fileService = fileService;
     }
 
 
-    /**
-     *
-     * @param authentication
-     * @param file
-     * @param attributes
-     * @return
-     */
     @PostMapping("/add")
     public String handleFileUpload(Authentication authentication, @RequestParam("fileUpload") MultipartFile file, RedirectAttributes attributes) {
 
@@ -60,12 +49,6 @@ public class FileController {
     }
 
 
-    /**
-     *
-     * @param id
-     * @param attributes
-     * @return
-     */
     @GetMapping("/download/{id}")
     public HttpEntity<byte[]> downloadFile(@PathVariable("id") int id, RedirectAttributes attributes) {
 
@@ -83,13 +66,6 @@ public class FileController {
     }
 
 
-    /**
-     *
-     * @param authentication
-     * @param id
-     * @param attributes
-     * @return
-     */
     @GetMapping("/delete/{id}")
     public String deleteFile(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
 

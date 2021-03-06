@@ -9,16 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.AuthenticationException;
 import java.util.ArrayList;
 
+
 @Service
 public class AuthenticationService implements AuthenticationProvider {
 
     private UserMapper userMapper;
+
     private HashService hashService;
+
 
     public AuthenticationService(UserMapper userMapper, HashService hashService) {
         this.userMapper = userMapper;
         this.hashService = hashService;
     }
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -37,6 +41,7 @@ public class AuthenticationService implements AuthenticationProvider {
         return null;
 
     }
+
 
     @Override
     public boolean supports(Class<?> authentication) {

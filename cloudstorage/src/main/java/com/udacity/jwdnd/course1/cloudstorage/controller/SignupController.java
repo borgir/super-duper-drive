@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 @RequestMapping("/signup")
 public class SignupController {
@@ -21,6 +22,7 @@ public class SignupController {
     public SignupController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping()
     public String signupView() {
@@ -33,6 +35,7 @@ public class SignupController {
         return "redirect:/home";
 
     }
+
 
     @PostMapping()
     public String signupUser(@ModelAttribute User user, Model model) {

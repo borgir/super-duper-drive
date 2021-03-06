@@ -13,23 +13,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+
 @Controller
 public class HomeController {
 
-
     private NoteService noteService;
+
     private FileService fileService;
+
     private CredentialService credentialService;
+
     private UserService userService;
 
 
-
-
-    /**
-     *
-     * @param noteService
-     * @param userService
-     */
     public HomeController(NoteService noteService, FileService fileService, CredentialService credentialService, UserService userService) {
         this.noteService = noteService;
         this.fileService = fileService;
@@ -38,16 +34,6 @@ public class HomeController {
     }
 
 
-
-
-    /**
-     *
-     * @param note
-     * @param model
-     * @param successMessage
-     * @param errorMessage
-     * @return
-     */
     @GetMapping("/home")
     public String getHomePage(Authentication authentication, @ModelAttribute("formNote") Note note, @ModelAttribute("formCredential") Credential credential, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
 

@@ -15,21 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/note")
 public class NoteController {
 
-
     private NoteService noteService;
+
     private UserService userService;
 
 
-    /**
-     *
-     * @param noteService
-     * @param userService
-     */
     public NoteController(NoteService noteService, UserService userService) {
         this.noteService = noteService;
         this.userService = userService;
     }
-
 
 
     @PostMapping("/add")
@@ -64,15 +58,6 @@ public class NoteController {
     }
 
 
-    /**
-     *
-     * @param authentication
-     * @param id
-     * @param note
-     * @param model
-     * @param attributes
-     * @return
-     */
     @PostMapping("/edit/{id}")
     public String editNote(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formNote") Note note, Model model, RedirectAttributes attributes) {
 
@@ -104,18 +89,11 @@ public class NoteController {
             attributes.addFlashAttribute("errorMessage", "<p>There was an error</p>");
         }
 
-
         return "redirect:/home";
 
     }
 
 
-    /**
-     *
-     * @param id
-     * @param attributes
-     * @return
-     */
     @GetMapping("/delete/{id}")
     public String deleteNote(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
 
