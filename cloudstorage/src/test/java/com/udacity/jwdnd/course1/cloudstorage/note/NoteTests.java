@@ -57,7 +57,7 @@ public class NoteTests {
 
 
     /**
-     * Tests if a note is successfully created, and verifies it is displayed on the note's list.
+     * Tests if a note is successfully created, and verifies if it is displayed on the note's list.
      * @throws InterruptedException
      */
     @Test

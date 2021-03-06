@@ -2,19 +2,15 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.stereotype.Service;
-
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
 
 @Service
 public class CredentialService {
 
-
     private CredentialMapper credentialMapper;
+
     private EncryptionService encryptionService;
 
 
@@ -54,6 +50,10 @@ public class CredentialService {
 
     public boolean deleteCredential(int id, int userid) {
         return credentialMapper.deleteCredential(id, userid);
+    }
+
+    public Credential getCredential(int id) {
+        return this.credentialMapper.getCredential(id);
     }
 
 }
