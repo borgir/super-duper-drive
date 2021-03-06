@@ -58,7 +58,7 @@ public class CredentialController {
 
 
     @PostMapping("/edit/{id}")
-    public String editCredential(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formCredential") Credential credential, Model model, RedirectAttributes attributes) {
+    public String editCredential(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formCredential") Credential credential, RedirectAttributes attributes) {
 
         String errorMessage = "";
         if (credential.getUrl() == "") {
