@@ -46,11 +46,7 @@ public class NoteController {
         // credits: https://knowledge.udacity.com/questions/354121
         User user = userService.getUser(authentication.getPrincipal().toString());
 
-        Note newNote = new Note();
-        newNote.setNotetitle(note.getNotetitle());
-        newNote.setNotedescription(note.getNotedescription());
-        newNote.setUserid((int)user.getUserId());
-        this.noteService.addNote(newNote);
+        this.noteService.addNote(note, user);
 
         attributes.addFlashAttribute("successMessage", "<p>Note added successfully</p>");
         return "redirect:/home";
@@ -77,13 +73,7 @@ public class NoteController {
 
         User user = userService.getUser(authentication.getPrincipal().toString());
 
-        Note updatedNote = new Note();
-        updatedNote.setNotetitle(note.getNotetitle());
-        updatedNote.setNotedescription(note.getNotedescription());
-        updatedNote.setUserid((int)user.getUserId());
-        updatedNote.setNoteid(id);
-
-        if (this.noteService.editNote(updatedNote)) {
+        if (this.noteService.editNote(note, user, id)) {
             attributes.addFlashAttribute("successMessage", "<p>Note successfully updated</p>");
         } else {
             attributes.addFlashAttribute("errorMessage", "<p>There was an error</p>");
