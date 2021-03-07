@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
+import com.udacity.jwdnd.course1.cloudstorage.exception.DuplicateFileNamePerUserException;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
@@ -25,15 +26,20 @@ public class FileService {
     }
 
 
-    public boolean storeFile(Authentication authentication, MultipartFile file) throws IOException {
+    public boolean storeFile(Authentication authentication, MultipartFile file) throws IOException, DuplicateFileNamePerUserException {
+
+        User user = userService.getUser(authentication.getPrincipal().toString());
 
         String fileName = getFilename(file);
+
+        List<File> files = this.getFiles((int)user.getUserId(), fileName);
+        if (files.size() > 0) {
+            throw new DuplicateFileNamePerUserException("The user already has a file with the name : " + fileName);
+        }
 
         String fileContentType = file.getContentType();
         byte[] fileBytes = file.getBytes();
         long fileSize = file.getSize();
-
-        User user = userService.getUser(authentication.getPrincipal().toString());
 
         File newFile = new File();
         newFile.setFilename(fileName);
@@ -64,6 +70,10 @@ public class FileService {
 
     public File downloadFile(int id) {
         return fileMapper.getFile(id);
+    }
+
+    public List<File> getFiles(int userid, String filename) {
+        return this.fileMapper.getFiles(userid, filename);
     }
 
 }

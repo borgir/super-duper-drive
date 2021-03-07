@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.exception.DuplicateFileNamePerUserException;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
@@ -40,6 +41,8 @@ public class FileController {
         try {
             fileService.storeFile(authentication, file);
             attributes.addFlashAttribute("successMessage", "<p>Uploaded the file successfully: "  + file.getOriginalFilename() + "</p>");
+        } catch (DuplicateFileNamePerUserException e) {
+            attributes.addFlashAttribute("errorMessage", "<p>" + e.getMessage()  + "</p>");
         } catch (Exception e) {
             attributes.addFlashAttribute("errorMessage", "<p>Could not upload the file</p>");
         }
