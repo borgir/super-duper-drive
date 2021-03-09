@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Controller
@@ -31,11 +32,11 @@ public class NoteController {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
-            errorMessage += "<p>Note title field is required</p>";
+            errorMessage += "<p>" + ERROR_NOTE_TITLE_REQUIRED + "</p>";
         }
 
         if (note.getNotedescription() == "") {
-            errorMessage += "<p>Note description field is required</p>";
+            errorMessage += "<p>" + ERROR_NOTE_DESCRIPTION_REQUIRED + "</p>";
         }
 
         if (errorMessage != "") {
@@ -48,7 +49,7 @@ public class NoteController {
 
         this.noteService.addNote(note, user);
 
-        attributes.addFlashAttribute("successMessage", "<p>Note added successfully</p>");
+        attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_NOTE_CREATE + "</p>");
         return "redirect:/home";
 
     }
@@ -59,11 +60,11 @@ public class NoteController {
 
         String errorMessage = "";
         if (note.getNotetitle() == "") {
-            errorMessage += "<p>Note title field is required</p>";
+            errorMessage += "<p>" + ERROR_NOTE_TITLE_REQUIRED + "</p>";
         }
 
         if (note.getNotedescription() == "") {
-            errorMessage += "<p>Note description field is required</p>";
+            errorMessage += "<p>" + ERROR_NOTE_DESCRIPTION_REQUIRED + "</p>";
         }
 
         if (errorMessage != "") {
@@ -74,9 +75,9 @@ public class NoteController {
         User user = userService.getUser(authentication.getPrincipal().toString());
 
         if (this.noteService.editNote(note, user, id)) {
-            attributes.addFlashAttribute("successMessage", "<p>Note successfully updated</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_NOTE_UPDATE + "</p>");
         } else {
-            attributes.addFlashAttribute("errorMessage", "<p>There was an error</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
         }
 
         return "redirect:/home";
@@ -90,9 +91,9 @@ public class NoteController {
         User user = userService.getUser(authentication.getPrincipal().toString());
 
         if (this.noteService.deleteNote(id, (int)user.getUserId())) {
-            attributes.addFlashAttribute("successMessage", "<p>Note deleted successfully</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_NOTE_DELETE + "</p>");
         } else {
-            attributes.addFlashAttribute("errorMessage", "<p>There was an error. Please try again.</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
         }
 
         return "redirect:/home";

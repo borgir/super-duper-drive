@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Controller
@@ -30,15 +31,15 @@ public class CredentialController {
 
         String errorMessage = "";
         if (credential.getUrl() == "") {
-            errorMessage += "<p>Url field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_URL_REQUIRED + "</p>";
         }
 
         if (credential.getUsername() == "") {
-            errorMessage += "<p>Username field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_USERNAME_REQUIRED + "</p>";
         }
 
         if (credential.getPassword() == "") {
-            errorMessage += "<p>Password field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_PASSWORD_REQUIRED + "</p>";
         }
 
         if (errorMessage != "") {
@@ -50,7 +51,8 @@ public class CredentialController {
 
         this.credentialService.addCredential(credential, user);
 
-        attributes.addFlashAttribute("successMessage", "<p>Credential added successfully</p>");
+        attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_CREDENTIAL_CREATE + "</p>");
+
         return "redirect:/home";
 
     }
@@ -61,15 +63,15 @@ public class CredentialController {
 
         String errorMessage = "";
         if (credential.getUrl() == "") {
-            errorMessage += "<p>Url field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_URL_REQUIRED + "</p>";
         }
 
         if (credential.getUsername() == "") {
-            errorMessage += "<p>Username field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_USERNAME_REQUIRED + "</p>";
         }
 
         if (credential.getPassword() == "") {
-            errorMessage += "<p>Password field is required</p>";
+            errorMessage += "<p>" + ERROR_CREDENTIAL_PASSWORD_REQUIRED + "</p>";
         }
 
         if (errorMessage != "") {
@@ -80,9 +82,9 @@ public class CredentialController {
         User user = userService.getUser(authentication.getPrincipal().toString());
         credential.setCredentialid(id);
         if (this.credentialService.editCredential(credential, user)) {
-            attributes.addFlashAttribute("successMessage", "<p>Credential successfully updated</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_CREDENTIAL_UPDATE + "</p>");
         } else {
-            attributes.addFlashAttribute("errorMessage", "<p>There was an error</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
         }
 
         return "redirect:/home";
@@ -96,9 +98,9 @@ public class CredentialController {
         User user = userService.getUser(authentication.getPrincipal().toString());
 
         if (this.credentialService.deleteCredential(id, (int)user.getUserId())) {
-            attributes.addFlashAttribute("successMessage", "<p>Credential deleted successfully</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_CREDENTIAL_DELETE + "</p>");
         } else {
-            attributes.addFlashAttribute("errorMessage", "<p>There was an error. Please try again.</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
         }
 
         return "redirect:/home";

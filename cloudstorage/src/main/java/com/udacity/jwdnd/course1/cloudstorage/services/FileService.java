@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
+import com.udacity.jwdnd.course1.cloudstorage.common.Message;
 import com.udacity.jwdnd.course1.cloudstorage.exception.DuplicateFileNamePerUserException;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
@@ -10,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Service
@@ -34,7 +36,7 @@ public class FileService {
 
         List<File> files = this.getFiles((int)user.getUserId(), fileName);
         if (files.size() > 0) {
-            throw new DuplicateFileNamePerUserException("The user already has a file with the name : " + fileName);
+            throw new DuplicateFileNamePerUserException(Message.getMessage(ERROR_FILE_USER_EXISTS, fileName));
         }
 
         String fileContentType = file.getContentType();

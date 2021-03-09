@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.common.Message;
 import com.udacity.jwdnd.course1.cloudstorage.exception.DuplicateFileNamePerUserException;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Controller
@@ -34,17 +36,17 @@ public class FileController {
         String fileName = fileService.getFilename(file);
 
         if (fileName == "") {
-            attributes.addFlashAttribute("errorMessage", "<p>You must select a file</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_FILE_REQUIRED + "</p>");
             return "redirect:/home";
         }
 
         try {
             fileService.storeFile(authentication, file);
-            attributes.addFlashAttribute("successMessage", "<p>Uploaded the file successfully: "  + file.getOriginalFilename() + "</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + Message.getMessage(SUCCESS_FILE_UPLOAD, file.getOriginalFilename())  + "</p>");
         } catch (DuplicateFileNamePerUserException e) {
             attributes.addFlashAttribute("errorMessage", "<p>" + e.getMessage()  + "</p>");
         } catch (Exception e) {
-            attributes.addFlashAttribute("errorMessage", "<p>Could not upload the file</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_FILE_UPLOAD + "</p>");
         }
 
         return "redirect:/home";
@@ -75,9 +77,9 @@ public class FileController {
         User user = userService.getUser(authentication.getPrincipal().toString());
 
         if (this.fileService.deleteFile(id, (int)user.getUserId())) {
-            attributes.addFlashAttribute("successMessage", "<p>File deleted successfully</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_FILE_DELETE + "</p>");
         } else {
-            attributes.addFlashAttribute("errorMessage", "<p>There was an error. Please try again.</p>");
+            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
         }
 
         return "redirect:/home";

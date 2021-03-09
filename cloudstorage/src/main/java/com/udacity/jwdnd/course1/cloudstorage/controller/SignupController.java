@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Controller
@@ -44,18 +45,18 @@ public class SignupController {
         String signupError = null;
 
         if (!userService.isUsernameAvailable(user.getUsername())) {
-            signupError = "The username already exists.";
+            signupError = ERROR_SIGNUP_USERNAME;
         }
 
         if (signupError == null) {
             int rowsAdded = userService.createUser(user);
             if (rowsAdded < 0) {
-                signupError = "There was an error signing you up. Please try again.";
+                signupError = ERROR_SIGNUP_GENERAL;
             }
         }
 
         if (signupError == null) {
-            attributes.addFlashAttribute("successMessage", "You successfully signed up!");
+            attributes.addFlashAttribute("successMessage", SUCCESS_SIGNUP);
             return "redirect:/login";
         }
 
