@@ -20,12 +20,29 @@ public class CredentialController {
     private UserService userService;
 
 
+
+
+    /**
+     * Handles the Credential Controller initialization.
+     * @param credentialService will be used to credential business login
+     * @param userService will be used to extract the logged user ID
+     */
     public CredentialController(CredentialService credentialService, UserService userService) {
         this.credentialService = credentialService;
         this.userService = userService;
     }
 
 
+
+
+    /**
+     * This method will handle Add Credential post request.
+     * Will check if all the required fields have been set and if so, it will try to add them by requesting the proper method on the credential serice class
+     * @param authentication to get the user ID
+     * @param credential contains the <form> submited data
+     * @param attributes will hold the attributes that will be sent to the home controller
+     * @return endpoint this controller is redirected to
+     */
     @PostMapping("/add")
     public String addCredential(Authentication authentication, @ModelAttribute("formCredential") Credential credential, RedirectAttributes attributes) {
 
@@ -58,6 +75,16 @@ public class CredentialController {
     }
 
 
+
+
+    /**
+     * Handles the credential edit post request.
+     * @param authentication to get the user ID
+     * @param id the credential ID present in the URL
+     * @param credential the form fields
+     * @param attributes will hold the attributes that will be sent to the home controller
+     * @return endpoint this controller is redirected to
+     */
     @PostMapping("/edit/{id}")
     public String editCredential(Authentication authentication, @PathVariable("id") int id, @ModelAttribute("formCredential") Credential credential, RedirectAttributes attributes) {
 
@@ -92,6 +119,15 @@ public class CredentialController {
     }
 
 
+
+
+    /**
+     * Handles the credential deletion request.
+     * @param authentication for getting the user ID
+     * @param id credential ID
+     * @param attributes will hold the attributes that will be sent to the home controller
+     * @return endpoint this controller is redirected to
+     */
     @GetMapping("/delete/{id}")
     public String deleteCredential(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
 

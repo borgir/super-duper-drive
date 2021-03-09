@@ -24,12 +24,28 @@ public class FileController {
     private UserService userService;
 
 
+
+
+    /**
+     *
+     * @param userService used to get the user ID
+     * @param fileService makes the file service business logic available
+     */
     public FileController(UserService userService, FileService fileService) {
         this.userService = userService;
         this.fileService = fileService;
     }
 
 
+
+
+    /**
+     * Handles the file submit request
+     * @param authentication used to get user ID
+     * @param file submited file
+     * @param attributes will hold the attributes that will be sent to the home controller
+     * @return endpoint this controller is redirected to
+     */
     @PostMapping("/add")
     public String handleFileUpload(Authentication authentication, @RequestParam("fileUpload") MultipartFile file, RedirectAttributes attributes) {
 
@@ -54,8 +70,15 @@ public class FileController {
     }
 
 
+
+
+    /**
+     * Handles the file dowload request
+     * @param id of the requested file
+     * @return the file
+     */
     @GetMapping("/download/{id}")
-    public HttpEntity<byte[]> downloadFile(@PathVariable("id") int id, RedirectAttributes attributes) {
+    public HttpEntity<byte[]> downloadFile(@PathVariable("id") int id) {
 
         File file = this.fileService.downloadFile(id);
 
@@ -71,6 +94,15 @@ public class FileController {
     }
 
 
+
+
+    /**
+     * handles the file deletion
+     * @param authentication for getting the user ID
+     * @param id of the file to be deleted
+     * @param attributes will hold the attributes that will be sent to the home controller
+     * @return endpoint this controller is redirected to
+     */
     @GetMapping("/delete/{id}")
     public String deleteFile(Authentication authentication, @PathVariable("id") int id, RedirectAttributes attributes) {
 

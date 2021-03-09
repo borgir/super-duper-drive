@@ -15,6 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
 
+
+
+    /**
+     * Will make the login page available whenever the user is not logged. Otherwise it will redirect the user to the homepage.
+     * @param model will hold and make available on the frontend any message, like user created successfully.
+     * @param successMessage will hold an eventual success message if the user comes from the signup page
+     * @return login page view name OR the endpoint where the user will be redirected to when logged
+     */
     @GetMapping()
     public String loginView(Model model, @ModelAttribute("successMessage") String successMessage) {
 

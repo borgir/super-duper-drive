@@ -15,17 +15,38 @@ public class UserService {
     private final HashService hashService;
 
 
+
+
+    /**
+     *
+     * @param userMapper
+     * @param hashService
+     */
     public UserService(UserMapper userMapper, HashService hashService) {
         this.userMapper = userMapper;
         this.hashService = hashService;
     }
 
 
+
+
+    /**
+     * Checks if the given username exists on the database
+     * @param username
+     * @return boolean result of the operation
+     */
     public boolean isUsernameAvailable(String username) {
         return userMapper.getUser(username) == null;
     }
 
 
+
+
+    /**
+     * Tries to create a new user on database
+     * @param user object containing the signup form data
+     * @return boolean result of the operation
+     */
     public int createUser(User user) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -36,6 +57,13 @@ public class UserService {
     }
 
 
+
+
+    /**
+     * Gets a user based on the given username
+     * @param username
+     * @return a user
+     */
     public User getUser(String username) {
         return userMapper.getUser(username);
     }

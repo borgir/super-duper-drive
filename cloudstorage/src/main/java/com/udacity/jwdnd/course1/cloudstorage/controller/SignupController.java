@@ -26,6 +26,12 @@ public class SignupController {
     }
 
 
+
+
+    /**
+     * Gets the signup page. However, if the user trying to access this page is already logged, he will be redirected to the home page
+     * @return signup page OR the home page
+     */
     @GetMapping()
     public String signupView() {
 
@@ -39,6 +45,15 @@ public class SignupController {
     }
 
 
+
+
+    /**
+     * Handles the user registration request.
+     * @param user form submited data
+     * @param model holds messages to be shown on the signup page
+     * @param attributes holds the result messages to be sent to the login page
+     * @return
+     */
     @PostMapping()
     public String signupUser(@ModelAttribute User user, Model model, RedirectAttributes attributes) {
 

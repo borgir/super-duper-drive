@@ -44,17 +44,21 @@ public final class Message {
     public static final String ERROR_FILE_USER_EXISTS = "The user already has a file with the name";
 
 
+
+
     /**
      * The constructor is set as private so that the class can't be instantiated
      */
     private Message() {}
 
 
+
+
     /**
-     * Gets the message based on the constant and the given value param.
-     * This will be used to add some extra information to the message like the filename.
+     * Gets the message based on the 'constant' and the given 'value' param.
+     * This method will join a message kept on a constant with some extra information (value) like the filename.
      * @param constant message constant
-     * @param value value ti be added to the final message
+     * @param value value to be added to the  message
      * @return the message
      */
     public static final String getMessage(String constant, String value) {

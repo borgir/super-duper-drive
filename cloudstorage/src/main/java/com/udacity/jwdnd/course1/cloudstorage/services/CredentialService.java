@@ -15,12 +15,27 @@ public class CredentialService {
     private EncryptionService encryptionService;
 
 
+
+
+    /**
+     * Injects the credential mapper and the encryption service.
+     * @param credentialMapper will be used for CRUD operations
+     * @param encryptionService
+     */
     public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
         this.encryptionService = encryptionService;
     }
 
 
+
+
+    /**
+     * Adds a new credential to the database
+     * @param credential object containing the credential's form data
+     * @param user needed to grab the user's ID
+     * @return the boolean result of the operation
+     */
     public boolean addCredential(Credential credential, User user) {
 
         String key = encryptionService.generateKey();
@@ -31,7 +46,12 @@ public class CredentialService {
 
     }
 
-
+    /**
+     * Updates an existing credential
+     * @param credential contains the credential's form data
+     * @param user this object will be used to get the user ID
+     * @return the boolean result of the operation
+     */
     public boolean editCredential(Credential credential, User user) {
         String key = encryptionService.generateKey();
         String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
@@ -40,6 +60,13 @@ public class CredentialService {
     }
 
 
+
+
+    /**
+     * Gets all the credentials that belong to the current logged user
+     * @param userid
+     * @return
+     */
     public List<Credential> getAllLoggedUserCredentials(int userid) {
         List<Credential> credentials = credentialMapper.getAllCredentials(userid);
         for (int i = 0; i < credentials.size(); i++) {
@@ -50,12 +77,24 @@ public class CredentialService {
         return credentials;
     }
 
-
+    /**
+     * Tries to deletes a credential based on the given credential ID and user ID
+     * @param id
+     * @param userid
+     * @return the boolean result of the operation
+     */
     public boolean deleteCredential(int id, int userid) {
         return credentialMapper.deleteCredential(id, userid);
     }
 
 
+
+
+    /**
+     * Gets a credential based on the given ID
+     * @param id
+     * @return
+     */
     public Credential getCredential(int id) {
         return this.credentialMapper.getCredential(id);
     }

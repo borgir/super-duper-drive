@@ -26,6 +26,14 @@ public class HomeController {
     private UserService userService;
 
 
+    /**
+     * Home constructor.
+     * Will inject the note, file and credential services so that its data can be presented on the frontend
+     * @param noteService
+     * @param fileService
+     * @param credentialService
+     * @param userService
+     */
     public HomeController(NoteService noteService, FileService fileService, CredentialService credentialService, UserService userService) {
         this.noteService = noteService;
         this.fileService = fileService;
@@ -34,6 +42,19 @@ public class HomeController {
     }
 
 
+
+
+    /**
+     * Will make the home page available.
+     * Will make use of the main services (note, file, credential) so that its data be shown on the frontend
+     * @param authentication for user ID purposes
+     * @param note will make available the note POJO to be used on the note's form
+     * @param credential will make available the credential POJO to be used on the note's form
+     * @param model will hold all the notes, files, credentials and messages (success or error)
+     * @param successMessage holds the received success message
+     * @param errorMessage holds the received error messages
+     * @return the name of the view
+     */
     @GetMapping("/home")
     public String getHomePage(Authentication authentication, @ModelAttribute("formNote") Note note, @ModelAttribute("formCredential") Credential credential, Model model, @ModelAttribute("successMessage") String successMessage, @ModelAttribute("errorMessage") String errorMessage) {
 
