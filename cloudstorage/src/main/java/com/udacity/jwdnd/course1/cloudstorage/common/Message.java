@@ -1,16 +1,28 @@
 package com.udacity.jwdnd.course1.cloudstorage.common;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 
 public final class Message {
 
-    private Message() {}
+    public static final String SUCCESS_CREDENTIAL_CREATE = "Credential added successfully";
 
+    public static final String SUCCESS_CREDENTIAL_UPDATE = "Credential updated successfully";
 
+    public static final String SUCCESS_CREDENTIAL_DELETE = "Credential deleted successfully";
+
+    public static final String SUCCESS_FILE_UPLOAD = "File uploaded successfully";
+
+    public static final String SUCCESS_FILE_DELETE = "File deleted successfully";
+
+    public static final String SUCCESS_NOTE_CREATE = "Note added successfully";
+
+    public static final String SUCCESS_NOTE_UPDATE = "Note successfully updated";
+
+    public static final String SUCCESS_NOTE_DELETE = "Note deleted successfully";
+
+    public static final String SUCCESS_SIGNUP = "You successfully signed up!";
 
     public static final String ERROR_GENERAL = "There was an error. Please try again.";
 
-    // credential
     public static final String ERROR_CREDENTIAL_URL_REQUIRED = "Url field is required";
 
     public static final String ERROR_CREDENTIAL_USERNAME_REQUIRED = "Username field is required";
@@ -32,32 +44,19 @@ public final class Message {
     public static final String ERROR_FILE_USER_EXISTS = "The user already has a file with the name";
 
 
+    /**
+     * The constructor is set as private so that the class can't be instantiated
+     */
+    private Message() {}
 
 
-    public static final String SUCCESS_CREDENTIAL_CREATE = "Credential added successfully";
-
-    public static final String SUCCESS_CREDENTIAL_UPDATE = "Credential updated successfully";
-
-    public static final String SUCCESS_CREDENTIAL_DELETE = "Credential deleted successfully";
-
-
-    public static final String SUCCESS_FILE_UPLOAD = "File uploaded successfully";
-
-    public static final String SUCCESS_FILE_DELETE = "File deleted successfully";
-
-
-    public static final String SUCCESS_NOTE_CREATE = "Note added successfully";
-
-    public static final String SUCCESS_NOTE_UPDATE = "Note successfully updated";
-
-    public static final String SUCCESS_NOTE_DELETE = "Note deleted successfully";
-
-    public static final String SUCCESS_SIGNUP = "You successfully signed up!";
-
-
-
-
-
+    /**
+     * Gets the message based on the constant and the given value param.
+     * This will be used to add some extra information to the message like the filename.
+     * @param constant message constant
+     * @param value value ti be added to the final message
+     * @return the message
+     */
     public static final String getMessage(String constant, String value) {
         return constant + ": " + value;
     }
