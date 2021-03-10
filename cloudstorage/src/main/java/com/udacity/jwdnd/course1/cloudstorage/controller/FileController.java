@@ -58,7 +58,7 @@ public class FileController {
 
         try {
             fileService.storeFile(authentication, file);
-            attributes.addFlashAttribute("successMessage", "<p>" + Message.getMessage(SUCCESS_FILE_UPLOAD, file.getOriginalFilename())  + "</p>");
+            attributes.addFlashAttribute("successMessage", "<p>" + Message.getMessage("SUCCESS_FILE_UPLOAD", file.getOriginalFilename())  + "</p>");
         } catch (DuplicateFileNamePerUserException e) {
             attributes.addFlashAttribute("errorMessage", "<p>" + e.getMessage()  + "</p>");
         } catch (Exception e) {

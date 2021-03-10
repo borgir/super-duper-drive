@@ -45,7 +45,7 @@ public class FileService {
      * @throws IOException cause the get the file bytes method might fail
      * @throws DuplicateFileNamePerUserException signals when a file with the same name is already associated to the current logged user
      */
-    public boolean storeFile(Authentication authentication, MultipartFile file) throws IOException, DuplicateFileNamePerUserException {
+    public boolean storeFile(Authentication authentication, MultipartFile file) throws IOException, DuplicateFileNamePerUserException, IllegalAccessException{
 
         User user = userService.getUser(authentication.getPrincipal().toString());
 
@@ -53,7 +53,7 @@ public class FileService {
 
         List<File> files = this.getFiles((int)user.getUserId(), fileName);
         if (files.size() > 0) {
-            throw new DuplicateFileNamePerUserException(Message.getMessage(ERROR_FILE_USER_EXISTS, fileName));
+            throw new DuplicateFileNamePerUserException(Message.getMessage("ERROR_FILE_USER_EXISTS", fileName));
         }
 
         String fileContentType = file.getContentType();

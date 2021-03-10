@@ -39,10 +39,10 @@ public class ExceptionController   {
      * @return the controller where is method should be redirected to
      */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String handleMaxSizeException(RedirectAttributes attributes) {
+    public String handleMaxSizeException(RedirectAttributes attributes) throws IllegalAccessException {
         // gets the application.properties max file size value
         String maxFileSize = env.getProperty("spring.servlet.multipart.max-file-size");
-        attributes.addFlashAttribute("errorMessage", Message.getMessage(ERROR_FILE_UPLOAD_SIZE, maxFileSize));
+        attributes.addFlashAttribute("errorMessage", Message.getMessage("ERROR_FILE_UPLOAD_SIZE", maxFileSize));
         return "redirect:/home";
     }
 

@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.common;
 
+import java.lang.reflect.Field;
 
 public final class Message {
 
@@ -61,12 +62,31 @@ public final class Message {
     /**
      * Gets the message based on the 'constant' and the given 'value' param.
      * This method will join a message kept on a constant with some extra information (value) like the filename.
-     * @param constant message constant
+     * @param constantName message constant name
      * @param value value to be added to the  message
      * @return the message
      */
-    public static final String getMessage(String constant, String value) {
-        return constant + ": " + value;
+    public static final String getMessage(String constantName, String value) throws IllegalAccessException {
+
+        boolean constantChecked = false;
+
+        String constantValue = null;
+
+        Field[] fields = Message.class.getDeclaredFields();
+        for (Field f : fields) {
+            if (f.getName().equals(constantName)) {
+                constantChecked = true;
+                constantValue = (String) f.get(null);
+                break;
+            }
+        }
+
+        if (!constantChecked) {
+            return "Unknown message";
+        }
+
+        return constantValue + ": " + value;
+
     }
 
 }
