@@ -54,6 +54,10 @@ public class NoteController {
             errorMessage += "<p>" + ERROR_NOTE_DESCRIPTION_REQUIRED + "</p>";
         }
 
+        if (note.getNotedescription() != "" && note.getNotedescription().length() > 1000) {
+            errorMessage += "<p>" + ERROR_NOTE_DESCRIPTION_LENGTH + "</p>";
+        }
+
         if (errorMessage != "") {
             attributes.addFlashAttribute("errorMessage", errorMessage);
             return "redirect:/home";

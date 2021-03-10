@@ -37,6 +37,8 @@ public final class Message {
 
     public static final String ERROR_NOTE_DESCRIPTION_REQUIRED = "Note description field is required";
 
+    public static final String ERROR_NOTE_DESCRIPTION_LENGTH = "Note description field can't exceed the 1000 characters";
+
     public static final String ERROR_SIGNUP_GENERAL = "There was an error signing you up. Please try again.";
 
     public static final String ERROR_SIGNUP_USERNAME = "The username already exists";
