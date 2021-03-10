@@ -33,6 +33,8 @@ public final class Message {
 
     public static final String ERROR_FILE_UPLOAD = "Could not upload the file";
 
+    public static final String ERROR_FILE_UPLOAD_SIZE = "File size exceeds limit. The maximum file size is";
+
     public static final String ERROR_NOTE_TITLE_REQUIRED = "Note title field is required";
 
     public static final String ERROR_NOTE_DESCRIPTION_REQUIRED = "Note description field is required";
