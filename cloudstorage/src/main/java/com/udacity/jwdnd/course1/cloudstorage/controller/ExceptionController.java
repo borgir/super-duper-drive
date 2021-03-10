@@ -8,6 +8,12 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
+
+/**
+ * References:
+ * https://www.baeldung.com/spring-maxuploadsizeexceeded
+ * https://knowledge.udacity.com/questions/377483
+ */
 @ControllerAdvice
 public class ExceptionController   {
 
