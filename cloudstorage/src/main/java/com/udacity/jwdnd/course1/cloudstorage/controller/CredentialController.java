@@ -8,6 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
+
 import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
@@ -66,9 +69,13 @@ public class CredentialController {
 
         User user = userService.getUser(authentication.getPrincipal().toString());
 
-        this.credentialService.addCredential(credential, user);
+        Map<String, String> map = this.credentialService.addCredential(credential, user);
 
-        attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_CREDENTIAL_CREATE + "</p>");
+        Map.Entry<String,String> entry = map.entrySet().iterator().next();
+        String key = entry.getKey();
+        String value = entry.getValue();
+
+        attributes.addFlashAttribute(key, value);
 
         return "redirect:/home";
 
@@ -108,11 +115,13 @@ public class CredentialController {
 
         User user = userService.getUser(authentication.getPrincipal().toString());
         credential.setCredentialid(id);
-        if (this.credentialService.editCredential(credential, user)) {
-            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_CREDENTIAL_UPDATE + "</p>");
-        } else {
-            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
-        }
+        Map<String, String> map = this.credentialService.editCredential(credential, user);
+
+        Map.Entry<String,String> entry = map.entrySet().iterator().next();
+        String key = entry.getKey();
+        String value = entry.getValue();
+
+        attributes.addFlashAttribute(key, value);
 
         return "redirect:/home";
 

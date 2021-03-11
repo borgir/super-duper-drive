@@ -30,6 +30,8 @@ public final class Message {
 
     public static final String ERROR_CREDENTIAL_PASSWORD_REQUIRED = "Password field is required";
 
+    public static final String ERROR_CREDENTIAL_DUPLICATE = "This username/url already exists on database.";
+
     public static final String ERROR_FILE_REQUIRED = "You must select a file";
 
     public static final String ERROR_FILE_UPLOAD = "Could not upload the file";

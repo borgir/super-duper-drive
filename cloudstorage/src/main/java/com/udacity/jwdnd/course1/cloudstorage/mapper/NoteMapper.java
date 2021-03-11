@@ -15,7 +15,7 @@ public interface NoteMapper {
     @Select("SELECT * FROM NOTES WHERE userid = #{userid}")
     List<Note> getAllNotes(int userid);
 
-    @Select("SELECT * FROM NOTES WHERE notetitle = #{notetitle} AND notedescription = #{notedescription} AND userid = #{userid}")
+    @Select("SELECT * FROM NOTES WHERE LOWER(notetitle) = LOWER(#{notetitle}) AND LOWER(notedescription) = LOWER(#{notedescription}) AND userid = #{userid}")
     List<Note> getNotes(String notetitle, String notedescription, int userid);
 
     @Insert("INSERT INTO NOTES (notetitle, notedescription, userid) VALUES(#{notetitle}, #{notedescription}, #{userid})")

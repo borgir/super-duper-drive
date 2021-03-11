@@ -16,6 +16,9 @@ public interface CredentialMapper {
     @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
     List<Credential> getAllCredentials(int userid);
 
+    @Select("SELECT * FROM CREDENTIALS WHERE LOWER(url) = LOWER(#{url}) AND LOWER(username) = LOWER(#{username}) AND userid = #{userid}")
+    List<Credential> getCredentials(String url, String username, int userid);
+
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userid) VALUES(#{url}, #{username}, #{key}, #{password}, #{userid})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialid")
     boolean insertCredential(Credential credential);

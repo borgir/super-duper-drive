@@ -126,8 +126,6 @@ public class NoteService {
     public boolean isDuplicate(String title, String description, int userid) {
         List<Note> notes = noteMapper.getNotes(title, description, userid);
 
-        System.out.println("notes: " + notes.size());
-
         if (notes.size() >= 1) {
             return true;
         }

@@ -2,9 +2,15 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.CredentialMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.udacity.jwdnd.course1.cloudstorage.common.Message.*;
 
 
 @Service
@@ -34,29 +40,62 @@ public class CredentialService {
      * Adds a new credential to the database
      * @param credential object containing the credential's form data
      * @param user needed to grab the user's ID
-     * @return the boolean result of the operation
+     * @return an associative array with the type of result (success or error) and the related message
      */
-    public boolean addCredential(Credential credential, User user) {
+    public Map<String, String> addCredential(Credential credential, User user) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        if (isDuplicate(credential.getUrl(), credential.getUsername(), (int)user.getUserId())) {
+            map.put("errorMessage", "<p>" + ERROR_CREDENTIAL_DUPLICATE + "</p>");
+            return map;
+        }
 
         String key = encryptionService.generateKey();
         String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
 
         Credential newCredential = new Credential(credential.getUrl(), credential.getUsername(), key, encryptedPassword, (int)user.getUserId());
-        return credentialMapper.insertCredential(newCredential);
+
+        if (credentialMapper.insertCredential(newCredential)) {
+            map.put("successMessage", "<p>" + SUCCESS_CREDENTIAL_CREATE + "</p>");
+        } else {
+            map.put("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
+        }
+
+        return map;
 
     }
+
+
+
 
     /**
      * Updates an existing credential
      * @param credential contains the credential's form data
      * @param user this object will be used to get the user ID
-     * @return the boolean result of the operation
+     * @return an associative array with the type of result (success or error) and the related message
      */
-    public boolean editCredential(Credential credential, User user) {
+    public Map<String, String> editCredential(Credential credential, User user) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        if (isDuplicate(credential.getUrl(), credential.getUsername(), (int)user.getUserId())) {
+            map.put("errorMessage", "<p>" + ERROR_CREDENTIAL_DUPLICATE + "</p>");
+            return map;
+        }
+
         String key = encryptionService.generateKey();
         String encryptedPassword = encryptionService.encryptValue(credential.getPassword(), key);
         Credential updatedCredential = new Credential(credential.getCredentialid(), credential.getUrl(), credential.getUsername(), key, encryptedPassword, (int)user.getUserId());
-        return credentialMapper.updateCredential(updatedCredential);
+
+        if (credentialMapper.updateCredential(updatedCredential)) {
+            map.put("successMessage", "<p>" + SUCCESS_CREDENTIAL_UPDATE + "</p>");
+        } else {
+            map.put("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
+        }
+
+        return map;
+
     }
 
 
@@ -97,6 +136,16 @@ public class CredentialService {
      */
     public Credential getCredential(int id) {
         return this.credentialMapper.getCredential(id);
+    }
+
+
+    public boolean isDuplicate(String url, String username, int userid) {
+        List<Credential> credentials = credentialMapper.getCredentials(url,  username, userid);
+
+        if (credentials.size() >= 1) {
+            return true;
+        }
+        return false;
     }
 
 }
