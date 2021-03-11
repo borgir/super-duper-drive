@@ -73,7 +73,7 @@ public class NoteController {
 
         Map.Entry<String,String> entry = map.entrySet().iterator().next();
         String key = entry.getKey();
-        String value =entry.getValue();
+        String value = entry.getValue();
 
         attributes.addFlashAttribute(key, value);
 
@@ -111,11 +111,13 @@ public class NoteController {
 
         User user = userService.getUser(authentication.getPrincipal().toString());
 
-        if (this.noteService.editNote(note, user, id)) {
-            attributes.addFlashAttribute("successMessage", "<p>" + SUCCESS_NOTE_UPDATE + "</p>");
-        } else {
-            attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
-        }
+        Map <String, String> map = this.noteService.editNote(note, user, id);
+
+        Map.Entry<String,String> entry = map.entrySet().iterator().next();
+        String key = entry.getKey();
+        String value = entry.getValue();
+
+        attributes.addFlashAttribute(key, value);
 
         return "redirect:/home";
 

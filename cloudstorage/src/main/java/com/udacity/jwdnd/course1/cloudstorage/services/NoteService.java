@@ -66,11 +66,26 @@ public class NoteService {
      * @param note the object containing the note's form data
      * @param user user object that will have it's ID extracted
      * @param id note ID
-     * @return the boolean result of the operation
+     * @return an associative array with the type of result (success or error) and the related message
      */
-    public boolean editNote(Note note, User user, int id) {
+    public Map<String, String> editNote(Note note, User user, int id) {
+
+        Map<String, String> map = new HashMap<String, String>();
+
+        if (isDuplicate(note.getNotetitle(), note.getNotedescription(), (int)user.getUserId())) {
+            map.put("errorMessage", "<p>" + ERROR_NOTE_DUPLICATE + "</p>");
+            return map;
+        }
+
         Note updatedNote = new Note(id, note.getNotetitle(), note.getNotedescription(), (int)user.getUserId());
-        return noteMapper.updateNote(updatedNote);
+        if (noteMapper.updateNote(updatedNote)) {
+            map.put("successMessage", "<p>" + SUCCESS_NOTE_UPDATE + "</p>");
+        } else {
+            map.put("errorMessage", "<p>" + ERROR_GENERAL + "</p>");
+        }
+
+        return map;
+
     }
 
 
