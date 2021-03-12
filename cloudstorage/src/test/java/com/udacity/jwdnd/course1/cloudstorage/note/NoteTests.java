@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.note;
 
+import com.udacity.jwdnd.course1.cloudstorage.pages.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.NotePage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
 import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for Note Creation, Viewing, Editing, and Deletion.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NoteTests {
@@ -30,30 +32,62 @@ public class NoteTests {
 
     private SignupPage signupPage;
 
+    private HomePage homePage;
 
+
+
+
+    /**
+     * Included the TestInstance anotation above so that this could be an instance method.
+     * Reason: needed to perform the signupUser() just once before the tests begin.
+     */
     @BeforeAll
-    static void beforeAll() {
+    public void setup() {
         WebDriverManager.chromedriver().setup();
+        this.driver = new ChromeDriver();
+        this.signupPage = new SignupPage(driver);
+        this.notePage = new NotePage(driver);
+        this.loginPage = new LoginPage(driver);
+        this.homePage = new HomePage(driver);
+        signupUser();
     }
 
 
+
+
+    /**
+     *
+     */
     @BeforeEach
     public void beforeEach() {
-        this.driver = new ChromeDriver();
-        this.notePage = new NotePage(driver);
-        this.loginPage = new LoginPage(driver);
-        this.signupPage = new SignupPage(driver);
-        signupUser();
         authenticateUser();
     }
 
 
+
+
+    /**
+     *
+     */
     @AfterEach
     public void afterEach() {
+        this.homePage.logOutUser();
+    }
+
+
+
+
+    /**
+     *
+     */
+    @AfterAll
+    public void afterAll() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+
 
 
     /**
@@ -94,6 +128,8 @@ public class NoteTests {
     }
 
 
+
+
     /**
      * Tests if an existing note is successfully edited and verifies if the changes are displayed on the note's list.
      * @throws InterruptedException
@@ -132,6 +168,8 @@ public class NoteTests {
     }
 
 
+
+
     /**
      * Tests if an existing note is successfully deleted and verifies that the note is no longer displayed on the note's list.
      * @throws InterruptedException
@@ -161,6 +199,8 @@ public class NoteTests {
     }
 
 
+
+
     /**
      * Checks if an HTML element exists on DOM
      * @param selector
@@ -177,6 +217,8 @@ public class NoteTests {
     }
 
 
+
+
     /**
      * Signs up a user on the SDD application
      */
@@ -186,6 +228,8 @@ public class NoteTests {
     }
 
 
+
+    
     /**
      * Authenticates a user on the SDD application
      */
