@@ -49,9 +49,7 @@ public class FileController {
     @PostMapping("/add")
     public String handleFileUpload(Authentication authentication, @RequestParam("fileUpload") MultipartFile file, RedirectAttributes attributes) {
 
-        String fileName = fileService.getFilename(file);
-
-        if (fileName == "") {
+        if (file.isEmpty()) {
             attributes.addFlashAttribute("errorMessage", "<p>" + ERROR_FILE_REQUIRED + "</p>");
             return "redirect:/home";
         }
