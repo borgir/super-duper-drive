@@ -1,9 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.Credential;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.pages.CredentialsPage;
-import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
-import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
+import com.udacity.jwdnd.course1.cloudstorage.pages.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -22,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for Credential Creation, Viewing, Editing, and Deletion.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CredentialsTests {
@@ -37,35 +36,66 @@ public class CredentialsTests {
 
     private CredentialsPage credentialsPage;
 
+    private HomePage homePage;
+
     @Autowired
     private CredentialService credentialService;
 
     @Autowired
     private EncryptionService encryptionService;
 
+
+
+
+    /**
+     * Included the TestInstance anotation above so that this could be an instance method.
+     * Reason: needed to perform the signupUser() just once before the tests begin.
+     */
     @BeforeAll
-    static void beforeAll() {
+    public void setup() {
         WebDriverManager.chromedriver().setup();
+        this.driver = new ChromeDriver();
+        this.signupPage = new SignupPage(driver);
+        this.credentialsPage = new CredentialsPage(driver);
+        this.loginPage = new LoginPage(driver);
+        this.homePage = new HomePage(driver);
+        signupUser();
     }
 
 
+    /**
+     * As requested the user must be authenticated before each test
+     */
     @BeforeEach
     public void beforeEach() {
-        this.driver = new ChromeDriver();
-        this.loginPage = new LoginPage(driver);
-        this.signupPage = new SignupPage(driver);
-        this.credentialsPage = new CredentialsPage(driver);
-        signupUser();
         authenticateUser();
     }
 
 
+
+
+    /**
+     *
+     */
     @AfterEach
     public void afterEach() {
+        this.homePage.logOutUser();
+    }
+
+
+
+
+    /**
+     *
+     */
+    @AfterAll
+    public void afterAll() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+
 
 
     /**
@@ -112,6 +142,8 @@ public class CredentialsTests {
     }
 
 
+
+
     /**
      * Tests if a set of credentials is successfully edited and verifies if the changes are displayed on the credentials's list.
      * Additionally it checks if the shown password is encrypted.
@@ -156,6 +188,8 @@ public class CredentialsTests {
     }
 
 
+
+
     /**
      * Tests if an existing set of credentials is successfully deleted and verifies that the it is no longer displayed on the credential's list.
      * @throws InterruptedException
@@ -185,6 +219,8 @@ public class CredentialsTests {
     }
 
 
+
+
     /**
      * Checks if an HTML element exists on DOM
      * @param selector
@@ -201,6 +237,8 @@ public class CredentialsTests {
     }
 
 
+
+
     /**
      * Signs up a user on the SDD application
      */
@@ -208,6 +246,8 @@ public class CredentialsTests {
         driver.get("http://localhost:" + this.port + "/signup");
         signupPage.insertUserData("Ricardo", "Miguel", "rm", "lkdjf3");
     }
+
+
 
 
     /**
